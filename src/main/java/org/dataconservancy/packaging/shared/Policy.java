@@ -32,7 +32,7 @@ package org.dataconservancy.packaging.shared;
  * @param <T> the packaging model type
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
-public interface PackageCreationPolicy<T> {
+public interface Policy<T> {
 
     // TODO
 

@@ -41,7 +41,7 @@ public interface Packager<T> {
      * @return a populated Package
      * @throws RuntimeException if the package cannot be successfully created
      */
-    Package buildPackage(ContentProvider<T> contentProvider, PackageCreationPolicy<T> creationPolicy,
+    Package buildPackage(ContentProvider<T> contentProvider, Policy<T> creationPolicy,
                          InputStream packageMetadata, InputStream packageParams);
 
 }
