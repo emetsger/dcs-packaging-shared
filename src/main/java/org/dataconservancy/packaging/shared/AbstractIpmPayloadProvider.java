@@ -24,10 +24,10 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * An IPM content provider which provides a general mechanism for walking the IPM model, evaluating potential nodes as
+ * An IPM payload provider which provides a general mechanism for walking the IPM model, evaluating potential nodes as
  * containing bytestreams, and delegating the resolution of those bytestreams to subclasses.
  * <p>
- * Sub-classes of this content provider and its associated {@code Packager} share the IPM model as a common semantic.
+ * Sub-classes of this payload provider and its associated {@code Packager} share the IPM model as a common semantic.
  * Implementations are knowledgeable of IPM semantics and can reason over an instance of an IPM model to implement their
  * responsibilities.
  * </p>

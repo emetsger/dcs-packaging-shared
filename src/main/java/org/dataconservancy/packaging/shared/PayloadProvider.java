@@ -22,8 +22,8 @@ import java.io.InputStream;
 import java.net.URI;
 
 /**
- * Content providers are responsible for answering models representing the content to be packaged, and resolving URIs
- * to byte streams.  Content providers and packagers are expected to reason over a common payload model, {@code T}.
+ * payload providers are responsible for answering models representing the content to be packaged, and resolving URIs
+ * to byte streams.  payload providers and packagers are expected to reason over a common payload model, {@code T}.
  *
  * @param <T> the payload model type
  * @author Elliot Metsger (emetsger@jhu.edu)
@@ -53,16 +53,16 @@ public interface PayloadProvider<T> {
     Model getDomainModel();
 
     /**
-     * Resolves a URI to a byte stream.  The URIs supplied to this method are known to the underlying content provider
+     * Resolves a URI to a byte stream.  The URIs supplied to this method are known to the underlying payload provider
      * because they would be included in the {@link #getPayloadModel() structural model}.  If a URI is not known to the
-     * this content provider, an {@code IllegalArgumentException} may be thrown.  Metadata for the returned stream (e.g.
+     * this payload provider, an {@code IllegalArgumentException} may be thrown.  Metadata for the returned stream (e.g.
      * size, checksums, mime type, etc.) are expected to be supplied in the {@link #getPayloadModel() structural model},
      * so the {@code ContentProvider} has no explicit methods for retrieving metadata of binary content.
      *
-     * @param contentUri a URI known to the content provider that identifies, or resolves to, a byte stream
+     * @param contentUri a URI known to the payload provider that identifies, or resolves to, a byte stream
      * @return the content referenced by the {@code contentUri}
-     * @throws IllegalArgumentException if the {@code contentUri} is unknown to the content provider
-     * @throws IOException if the {@code contentUri} is known to the content provider, but cannot be retrieved
+     * @throws IllegalArgumentException if the {@code contentUri} is unknown to the payload provider
+     * @throws IOException if the {@code contentUri} is known to the payload provider, but cannot be retrieved
      */
     InputStream resolve(URI contentUri) throws IOException;
 

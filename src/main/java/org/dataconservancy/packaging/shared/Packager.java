@@ -18,8 +18,8 @@ package org.dataconservancy.packaging.shared;
 import java.io.InputStream;
 
 /**
- * Creates packages according to a set of parameters, with content supplied by the content provider.  The packaging
- * model ({@code T}) describes the content to be packaged, and its semantics are shared between content providers and
+ * Creates packages according to a set of parameters, with content supplied by the payload provider.  The packaging
+ * model ({@code T}) describes the content to be packaged, and its semantics are shared between payload providers and
  * packagers.
  *
  * @param <T> the payload model type
