@@ -28,7 +28,7 @@ import java.net.URI;
  * @param <T> the packaging model type
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
-public interface ContentProvider<T> {
+public interface PayloadProvider<T> {
 
     /**
      * Answers a structural view of the content contained in the package.  Packagers are expected to be able to reason

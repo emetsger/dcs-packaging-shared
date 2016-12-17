@@ -33,7 +33,7 @@ public interface Packager<T> {
      * to produce the package.  If binary content is to be included in the package, the {@code contentProvider} is
      * responsible for resolving the bits, and giving them to this {@code Packager}.
      *
-     * @param contentProvider source of the package model, domain objects, and binary content
+     * @param payloadProvider source of the package model, domain objects, and binary content
      * @param creationPolicy determines whether or not an entity in the package model is to be included in the
      *                       {@code Package}
      * @param packageMetadata metadata describing the package as a whole
@@ -41,7 +41,7 @@ public interface Packager<T> {
      * @return a populated Package
      * @throws RuntimeException if the package cannot be successfully created
      */
-    Package buildPackage(ContentProvider<T> contentProvider, Policy<T> creationPolicy,
+    Package buildPackage(PayloadProvider<T> payloadProvider, Policy<T> creationPolicy,
                          InputStream packageMetadata, InputStream packageParams);
 
 }

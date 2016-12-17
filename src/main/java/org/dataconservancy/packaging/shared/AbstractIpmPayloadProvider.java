@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
-public abstract class AbstractIpmContentProvider implements ContentProvider<Node> {
+public abstract class AbstractIpmPayloadProvider implements PayloadProvider<Node> {
 
     /**
      * Represents the root {@link Node} of the content being packaged.  Must not be {@code null}.
