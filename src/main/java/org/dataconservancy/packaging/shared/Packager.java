@@ -16,9 +16,10 @@
 package org.dataconservancy.packaging.shared;
 
 import java.io.InputStream;
+import java.net.URI;
 
 /**
- * Creates packages according to a set of parameters, with content supplied by the payload provider.  The packaging
+ * Creates packages according to a set of parameters, with content supplied by the payload provider.  The payload
  * model ({@code T}) describes the content to be packaged, and its semantics are shared between payload providers and
  * packagers.
  *
@@ -29,11 +30,12 @@ public interface Packager<T> {
 
     /**
      * Creates a package from the given content, metadata and generation parameters.  Implementations are responsible
-     * for interrogating the payload model returned by the {@code contentProvider}, and reasoning over its contents
-     * to produce the package.  If binary content is to be included in the package, the {@code contentProvider} is
-     * responsible for resolving the bits, and giving them to this {@code Packager}.
+     * for interrogating the payload model returned by the {@code payloadProvider}, and reasoning over its contents
+     * to produce the package.  If binary content is to be included in the package, the {@code payloadProvider} is
+     * responsible for resolving the bits, and giving them to this {@code Packager} {@link PayloadProvider#resolve(URI)
+     * on request}.
      *
-     * @param payloadProvider source of the package model, domain objects, and binary content
+     * @param payloadProvider source of the payload model, domain objects, and binary content
      * @param creationPolicy determines whether or not an entity in the package model is to be included in the
      *                       {@code Package}
      * @param packageMetadata metadata describing the package as a whole

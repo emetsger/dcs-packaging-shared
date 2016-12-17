@@ -45,18 +45,18 @@ public abstract class AbstractIpmPayloadProvider implements PayloadProvider<Node
      * {@inheritDoc}
      * <p>
      * Implementation notes: walks the IPM tree for {@code FileInfo} objects whose location equals the
-     * {@code contentUri}, or whose parent {@code Node} equals the {@code contentUri}, or whose domain object equals the
-     * {@code contentUri}.  Delegates the resolution of the URI to {@link #resolveLocation(URI)}.
+     * {@code payloadUri}, or whose parent {@code Node} equals the {@code payloadUri}, or whose domain object equals the
+     * {@code payloadUri}.  Delegates the resolution of the URI to {@link #resolveLocation(URI)}.
      * </p>
      *
-     * @param contentUri {@inheritDoc}
+     * @param payloadUri {@inheritDoc}
      * @return {@inheritDoc}
      * @throws IllegalArgumentException {@inheritDoc}
      * @throws IOException {@inheritDoc}
      * @throws IllegalStateException if the IPM root node is {@code null}
      */
     @Override
-    public InputStream resolve(final URI contentUri) throws IOException {
+    public InputStream resolve(final URI payloadUri) throws IOException {
         if (rootNode == null) {
             throw new IllegalStateException("'rootNode' must not be null.");
         }
@@ -65,9 +65,9 @@ public abstract class AbstractIpmPayloadProvider implements PayloadProvider<Node
         final AtomicReference<Optional<IOException>> ex = new AtomicReference<>();
 
         rootNode.walk(n -> {
-            if (n.getIdentifier() == contentUri ||
-                    n.getFileInfo() != null && n.getFileInfo().getLocation().equals(contentUri) ||
-                    n.getDomainObject().equals(contentUri)) {
+            if (n.getIdentifier() == payloadUri ||
+                    n.getFileInfo() != null && n.getFileInfo().getLocation().equals(payloadUri) ||
+                    n.getDomainObject().equals(payloadUri)) {
                 try {
                     content.set(Optional.ofNullable(resolveLocation(n.getFileInfo().getLocation())));
                 } catch (IOException e) {
@@ -82,7 +82,7 @@ public abstract class AbstractIpmPayloadProvider implements PayloadProvider<Node
 
         return content.get()
                 .orElseThrow(() ->
-                        new IllegalArgumentException("No bytestream could be resolved for " + contentUri.toString()));
+                        new IllegalArgumentException("No bytestream could be resolved for " + payloadUri.toString()));
     }
 
     /**

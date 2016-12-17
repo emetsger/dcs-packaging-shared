@@ -16,7 +16,7 @@
 package org.dataconservancy.packaging.shared;
 
 /**
- * Placeholder interface which represents a policy for what gets included in a package.  Examples are:
+ * Placeholder interface which influences the serialization of a package.  Examples are:
  * <ol>
  *     <li>Limit the size of the package (implies that content beyond this limit would included in a fetch file, or
  *          perhaps multiple bags would be produced as a result)</li>
@@ -24,6 +24,7 @@ package org.dataconservancy.packaging.shared;
  *          a fetch file)</li>
  *     <li>The more general case of including or excluding content in the package according to some arbitrary
  *          criteria</li>
+ *     <li>Split a logical package into physical packages, e.g. BagIt groups</li>
  * </ol>
  *
  * It is likely that policy implementations will also have to share the payload model, so it can reason about what

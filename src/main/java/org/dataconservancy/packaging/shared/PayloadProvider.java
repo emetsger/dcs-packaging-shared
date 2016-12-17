@@ -22,8 +22,9 @@ import java.io.InputStream;
 import java.net.URI;
 
 /**
- * payload providers are responsible for answering models representing the content to be packaged, and resolving URIs
- * to byte streams.  payload providers and packagers are expected to reason over a common payload model, {@code T}.
+ * Payload providers are responsible for answering models representing the custodial content to be packaged, and
+ * resolving URIs to byte streams.  Payload providers and packagers are expected to reason over a common payload model,
+ * {@code T}.
  *
  * @param <T> the payload model type
  * @author Elliot Metsger (emetsger@jhu.edu)
@@ -31,15 +32,16 @@ import java.net.URI;
 public interface PayloadProvider<T> {
 
     /**
-     * Answers a structural view of the content contained in the package.  Packagers are expected to be able to reason
-     * over the model returned by this method in order to produce a {@code Package} instance.
+     * Answers a structural view of the custodial content to be included in the package.  Packagers are expected to be
+     * able to reason over the model returned by this method in order to produce a {@code Package} instance.
      * <p>
      * The model returned by this method is expected to contain not only structural information (e.g. a hierarchical
      * representation of the content), but also metadata about any binary content contained in the package (e.g.
-     * checksums, content type, content length).  Entities in the model are expected to be identified by URIs.
+     * checksums, content type, content length).  Entities in the model are expected to be identified by URIs.  The
+     * implementation of this method is driven by the nature and requirements of the payload model {@code T}.
      * </p>
      *
-     * @return the structural model of the content being packaged
+     * @return the model of the content being packaged according to the requirements of {@code T}
      */
     T getPayloadModel();
 
@@ -57,13 +59,13 @@ public interface PayloadProvider<T> {
      * because they would be included in the {@link #getPayloadModel() structural model}.  If a URI is not known to the
      * this payload provider, an {@code IllegalArgumentException} may be thrown.  Metadata for the returned stream (e.g.
      * size, checksums, mime type, etc.) are expected to be supplied in the {@link #getPayloadModel() structural model},
-     * so the {@code ContentProvider} has no explicit methods for retrieving metadata of binary content.
+     * so the {@code PayloadProvider} has no explicit methods for retrieving metadata of binary content.
      *
-     * @param contentUri a URI known to the payload provider that identifies, or resolves to, a byte stream
-     * @return the content referenced by the {@code contentUri}
-     * @throws IllegalArgumentException if the {@code contentUri} is unknown to the payload provider
-     * @throws IOException if the {@code contentUri} is known to the payload provider, but cannot be retrieved
+     * @param payloadUri a URI known to the payload provider that identifies, or resolves to, a byte stream
+     * @return the content referenced by the {@code payloadUri}
+     * @throws IllegalArgumentException if the {@code payloadUri} is unknown to the payload provider
+     * @throws IOException if the {@code payloadUri} is known to the payload provider, but cannot be retrieved
      */
-    InputStream resolve(URI contentUri) throws IOException;
+    InputStream resolve(URI payloadUri) throws IOException;
 
 }
