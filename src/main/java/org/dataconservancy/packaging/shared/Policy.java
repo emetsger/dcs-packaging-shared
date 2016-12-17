@@ -26,10 +26,10 @@ package org.dataconservancy.packaging.shared;
  *          criteria</li>
  * </ol>
  *
- * It is likely that policy implementations will also have to share the package model, so it can reason about what
+ * It is likely that policy implementations will also have to share the payload model, so it can reason about what
  * content to include or exclude based on information in the model.
  *
- * @param <T> the packaging model type
+ * @param <T> the payload model type
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
 public interface Policy<T> {

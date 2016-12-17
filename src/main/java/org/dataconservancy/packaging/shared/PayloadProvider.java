@@ -23,9 +23,9 @@ import java.net.URI;
 
 /**
  * Content providers are responsible for answering models representing the content to be packaged, and resolving URIs
- * to byte streams.  Content providers and packagers are expected to reason over a common packaging model, {@code T}.
+ * to byte streams.  Content providers and packagers are expected to reason over a common payload model, {@code T}.
  *
- * @param <T> the packaging model type
+ * @param <T> the payload model type
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
 public interface PayloadProvider<T> {
@@ -41,7 +41,7 @@ public interface PayloadProvider<T> {
      *
      * @return the structural model of the content being packaged
      */
-    T getPackageModel();
+    T getPayloadModel();
 
     /**
      * Answers a domain view of the content contained in the package.  Models returned by this method are specific to
@@ -54,9 +54,9 @@ public interface PayloadProvider<T> {
 
     /**
      * Resolves a URI to a byte stream.  The URIs supplied to this method are known to the underlying content provider
-     * because they would be included in the {@link #getPackageModel() structural model}.  If a URI is not known to the
+     * because they would be included in the {@link #getPayloadModel() structural model}.  If a URI is not known to the
      * this content provider, an {@code IllegalArgumentException} may be thrown.  Metadata for the returned stream (e.g.
-     * size, checksums, mime type, etc.) are expected to be supplied in the {@link #getPackageModel() structural model},
+     * size, checksums, mime type, etc.) are expected to be supplied in the {@link #getPayloadModel() structural model},
      * so the {@code ContentProvider} has no explicit methods for retrieving metadata of binary content.
      *
      * @param contentUri a URI known to the content provider that identifies, or resolves to, a byte stream

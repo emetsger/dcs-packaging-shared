@@ -22,14 +22,14 @@ import java.io.InputStream;
  * model ({@code T}) describes the content to be packaged, and its semantics are shared between content providers and
  * packagers.
  *
- * @param <T> the packaging model type
+ * @param <T> the payload model type
  * @author Elliot Metsger (emetsger@jhu.edu)
  */
 public interface Packager<T> {
 
     /**
      * Creates a package from the given content, metadata and generation parameters.  Implementations are responsible
-     * for interrogating the packaging model returned by the {@code contentProvider}, and reasoning over its contents
+     * for interrogating the payload model returned by the {@code contentProvider}, and reasoning over its contents
      * to produce the package.  If binary content is to be included in the package, the {@code contentProvider} is
      * responsible for resolving the bits, and giving them to this {@code Packager}.
      *
