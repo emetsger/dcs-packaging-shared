@@ -22,7 +22,6 @@ import org.dataconservancy.packaging.tool.api.Package;
 import org.dataconservancy.packaging.tool.api.PackageGenerationService;
 import org.dataconservancy.packaging.tool.impl.IpmRdfTransformService;
 import org.dataconservancy.packaging.tool.model.BagItParameterNames;
-import org.dataconservancy.packaging.tool.model.GeneralParameterNames;
 import org.dataconservancy.packaging.tool.model.PackageGenerationParameters;
 import org.dataconservancy.packaging.tool.model.PackageState;
 import org.dataconservancy.packaging.tool.model.ParametersBuildException;
@@ -37,6 +36,9 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+
+import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_LOCATION;
+import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_NAME;
 
 /**
  * Creates a DC package from a content provider, metadata and generation parameters.
@@ -159,16 +161,44 @@ public class IpmPackager {
 
     /**
      * Read and return a set of package generation parameters.
-     * @param paramsStream A stream from which the package generation parameters are read (as Java Properties).
+     * <p>Implementation note:</p>
+     * <p>Two package generation parameters are required by the underlying package serialization code:
+     *
+     * <dl>
+     *     <dt>Package-Location</dt>
+     *     <dd>the file location (a directory) where the package will be assembled, e.g. {@code /tmp}</dd>
+     *     <dt>Package-Name</dt>
+     *     <dd>the name of the package, e.g. {@code MyPackage}</dd>
+     * </dl>
+     *
+     * This method will add {@code Package-Location} and {@code Package-Name} if they are not supplied in
+     * {@code paramsStream}.  If {@code paramsStream} is {@code null}, a {@code PackageGenerationParameters} will be
+     * returned containing default values for the {@code Package-Location} and {@code Package-Name}.
+     * </p>
+     *
+     * @param paramsStream A stream from which the package generation parameters are read (as Java Properties), may be
+     *                     {@code null}.
      * @return The collection of parameters.
      * @throws ParametersBuildException Thrown if the parameter loading fails.
      */
-    private PackageGenerationParameters getGenerationParameters(final InputStream paramsStream)
+    PackageGenerationParameters getGenerationParameters(final InputStream paramsStream)
             throws ParametersBuildException {
-        final PackageGenerationParameters params =
-                new PropertiesConfigurationParametersBuilder().buildParameters(paramsStream);
-        params.addParam(GeneralParameterNames.PACKAGE_LOCATION, packageLocation);
-        params.addParam(GeneralParameterNames.PACKAGE_NAME, packageName);
+        final PackageGenerationParameters params;
+
+        if (paramsStream == null) {
+            params = new PackageGenerationParameters();
+        } else {
+            params = new PropertiesConfigurationParametersBuilder().buildParameters(paramsStream);
+        }
+
+        if (params.getParam(PACKAGE_LOCATION) == null || params.getParam(PACKAGE_LOCATION).isEmpty()) {
+            params.addParam(PACKAGE_LOCATION, packageLocation);
+        }
+
+        if (params.getParam(PACKAGE_NAME) == null || params.getParam(PACKAGE_NAME).isEmpty() ) {
+            params.addParam(PACKAGE_NAME, packageName);
+        }
+
         return params;
     }
 
