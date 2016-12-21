@@ -65,6 +65,7 @@
                         <exclude>**/.idea</exclude>
                         <exclude>**/*.sh</exclude>
                         <exclude>**/target/**</exclude>
+                        <exclude>**/**identity**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
