@@ -2,11 +2,9 @@ language: java
 install: true
 before_script:
   - echo "MAVEN_OPTS='-Xmx1024m'" > ~/.mavenrc
-  - true ; [[ $TRAVIS_PULL_REQUEST == "false" ]] && openssl aes-256-cbc -K $encrypted_2a98099cadfe_key -iv $encrypted_2a98099cadfe_iv -in settings.tar.enc -out settings.tar -d || true
-  - true ; [[ $TRAVIS_PULL_REQUEST == "false" ]] && tar -xf settings.tar || true
-  - true ; [[ $TRAVIS_PULL_REQUEST == "false" ]] && cat known_hosts >> ~/.ssh/known_hosts || true
+  - true ; [[ $TRAVIS_PULL_REQUEST == "false" ]] && openssl aes-256-cbc -K $encrypted_2a98099cadfe_key -iv $encrypted_2a98099cadfe_iv -in settings.tar.enc -out settings.tar -d && tar -xf settings.tar && cat known_hosts >> ~/.ssh/known_hosts || true
 script:
-  - mvn verify
+  - true ; [[ $TRAVIS_PULL_REQUEST != "false" ]] && mvn verify || true
   - true ; [[ $TRAVIS_PULL_REQUEST == "false" ]] && mvn -s ./settings.xml deploy || true
 jdk:
   - oraclejdk8
