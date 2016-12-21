@@ -41,12 +41,36 @@
     <!-- Build  ===================================================== -->
 
     <build>
+
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.rat</groupId>
+                <artifactId>apache-rat-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/settings.tar</exclude>
+                        <exclude>**/settings.xml</exclude>
+                        <exclude>**/known_hosts</exclude>
+                        <exclude>**/.travis.yml</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>**/*.iml</exclude>
+                        <exclude>**/*.ipr</exclude>
+                        <exclude>**/*.iws</exclude>
+                        <exclude>**/.idea</exclude>
+                        <exclude>**/*.sh</exclude>
+                        <exclude>**/target/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            
         </plugins>
+
     </build>
 
     <!-- Dependencies =============================================== -->
