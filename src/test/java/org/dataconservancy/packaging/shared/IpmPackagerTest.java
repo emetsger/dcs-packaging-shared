@@ -50,10 +50,13 @@ public class IpmPackagerTest {
         assertTrue(result.getParam("Package-Location") != null && result.getParam("Package-Location").size() == 1);
         assertTrue(result.getParam("Package-Name") != null && result.getParam("Package-Name").size() == 1);
         assertTrue(result.getParam("Package-Format-Id") != null && result.getParam("Package-Format-Id").size() == 1);
+        assertTrue(result.getParam("BagIt-Profile-Identifier") != null &&
+                result.getParam("BagIt-Profile-Identifier").size() == 1);
     }
 
     /**
-     * Document the default values for 'Package-Name', 'Package-Location', and 'Package-Format-Id'.
+     * Document the default values for 'Package-Name', 'Package-Location', 'BagIt-Profile-Identifier', and
+     * 'Package-Format-Id'.
      *
      * @throws ParametersBuildException if parameters cannot be generated
      */
@@ -63,6 +66,7 @@ public class IpmPackagerTest {
         final String name = "MyPackage";
         final String location = System.getProperty("java.io.tmpdir");
         final String format = BOREM.name();
+        final String profile = "http://dataconservancy.org/formats/data-conservancy-pkg-1.0";
         underTest.setPackageName(name);
         underTest.setPackageLocation(location);
         final PackageGenerationParameters result = underTest.getGenerationParameters(null);
@@ -71,6 +75,7 @@ public class IpmPackagerTest {
         assertEquals(location, result.getParam("Package-Location").get(0));
         assertEquals(name, result.getParam("Package-Name").get(0));
         assertEquals(format, result.getParam("Package-Format-Id").get(0));
+        assertEquals(profile, result.getParam("BagIt-Profile-Identifier").get(0));
     }
 
     /**

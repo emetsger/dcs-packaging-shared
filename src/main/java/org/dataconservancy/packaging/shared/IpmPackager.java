@@ -53,6 +53,11 @@ public class IpmPackager {
      */
     private static final String DEFAULT_PACKAGE_FORMAT = BOREM.name();
 
+    /**
+     * The default 'BagIt-Profile-Identifier' if there is not one supplied in the package generation parameters.
+     */
+    private static final String DEFAULT_BAGIT_PROFILE = "http://dataconservancy.org/formats/data-conservancy-pkg-1.0";
+
     private String packageLocation = System.getProperty("java.io.tmpdir");
     private String packageName = "MyPackage";
 
@@ -178,6 +183,9 @@ public class IpmPackager {
      *     <dd>the name of the package, e.g. {@code MyPackage}</dd>
      *     <dt>Package-Format-Id</dt>
      *     <dd>the serialization format of the package, e.g. {@code BOREM} (BagIt plus ORE-REM)</dd>
+     *     <dt>BagIt-Profile-Identifier</dt>
+     *     <dd>a URI from the Data Conservancy BagIt profile identifying the version of the profile in use, e.g.
+     *         {@code http://dataconservancy.org/formats/data-conservancy-pkg-1.0}</dd>
      * </dl>
      *
      * This method will add {@code Package-Location}, {@code Package-Name}, and {@code Package-Format-Id} if they are
@@ -211,6 +219,11 @@ public class IpmPackager {
 
         if (params.getParam(PACKAGE_FORMAT_ID) == null || params.getParam(PACKAGE_FORMAT_ID).isEmpty() ) {
             params.addParam(PACKAGE_FORMAT_ID, DEFAULT_PACKAGE_FORMAT);
+        }
+
+        if (params.getParam("BagIt-Profile-Identifier") == null ||
+                params.getParam("BagIt-Profile-Identifier").isEmpty() ) {
+            params.addParam("BagIt-Profile-Identifier", DEFAULT_BAGIT_PROFILE);
         }
 
         return params;
