@@ -174,7 +174,7 @@ public class IpmPackager {
     /**
      * Read and return a set of package generation parameters.
      * <p>Implementation note:</p>
-     * <p>Two package generation parameters are required by the underlying package serialization code:
+     * <p>These package generation parameters are required by the underlying package serialization code:
      *
      * <dl>
      *     <dt>Package-Location</dt>
@@ -188,10 +188,9 @@ public class IpmPackager {
      *         {@code http://dataconservancy.org/formats/data-conservancy-pkg-1.0}</dd>
      * </dl>
      *
-     * This method will add {@code Package-Location}, {@code Package-Name}, and {@code Package-Format-Id} if they are
-     * not supplied in {@code paramsStream}.  If {@code paramsStream} is {@code null}, a
-     * {@code PackageGenerationParameters} will be returned containing default values for the {@code Package-Location},
-     * {@code Package-Name}, and {@code Package-Format-Id}.
+     * This method will add default values for {@code Package-Location}, {@code Package-Name},
+     * {@code Package-Format-Id}, and {@code BagIt-Profile-Identifier} if they are not supplied in {@code paramsStream},
+     * or if {@code paramsStream} is {@code null}.
      * </p>
      *
      * @param paramsStream A stream from which the package generation parameters are read (as Java Properties), may be
