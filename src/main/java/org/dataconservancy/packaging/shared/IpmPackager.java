@@ -82,8 +82,8 @@ public class IpmPackager {
      * API call for creating a package from the given content, metadata
      * and generation parameters.
      * @param contentProvider Source of domain objects and IpmTree content
-     * @param metadataStream - A stream to metadata, as Java Properties.
-     * @param paramsStream A stream to package generation parameters, as Java Properties.
+     * @param metadataStream - A stream to metadata, as Java Properties, may be {@code null}
+     * @param paramsStream A stream to package generation parameters, as Java Properties, may be {@code null}
      * @return A populated Package
      * @throws RuntimeException if the content cannot be processed successfully.
      */
