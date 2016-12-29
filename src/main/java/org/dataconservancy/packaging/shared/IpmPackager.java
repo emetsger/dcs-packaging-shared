@@ -37,6 +37,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
+import static org.dataconservancy.packaging.tool.api.PackagingFormat.BOREM;
+import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_FORMAT_ID;
 import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_LOCATION;
 import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_NAME;
 
@@ -45,6 +47,11 @@ import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PAC
  * @author Ben Trumbore (wbt3@cornell.edu).
  */
 public class IpmPackager {
+
+    /**
+     * The default 'Package-Format-Id' if there is not one supplied in the package generation parameters.
+     */
+    private static final String DEFAULT_PACKAGE_FORMAT = BOREM.name();
 
     private String packageLocation = System.getProperty("java.io.tmpdir");
     private String packageName = "MyPackage";
@@ -169,11 +176,14 @@ public class IpmPackager {
      *     <dd>the file location (a directory) where the package will be assembled, e.g. {@code /tmp}</dd>
      *     <dt>Package-Name</dt>
      *     <dd>the name of the package, e.g. {@code MyPackage}</dd>
+     *     <dt>Package-Format-Id</dt>
+     *     <dd>the serialization format of the package, e.g. {@code BOREM} (BagIt plus ORE-REM)</dd>
      * </dl>
      *
-     * This method will add {@code Package-Location} and {@code Package-Name} if they are not supplied in
-     * {@code paramsStream}.  If {@code paramsStream} is {@code null}, a {@code PackageGenerationParameters} will be
-     * returned containing default values for the {@code Package-Location} and {@code Package-Name}.
+     * This method will add {@code Package-Location}, {@code Package-Name}, and {@code Package-Format-Id} if they are
+     * not supplied in {@code paramsStream}.  If {@code paramsStream} is {@code null}, a
+     * {@code PackageGenerationParameters} will be returned containing default values for the {@code Package-Location},
+     * {@code Package-Name}, and {@code Package-Format-Id}.
      * </p>
      *
      * @param paramsStream A stream from which the package generation parameters are read (as Java Properties), may be
@@ -197,6 +207,10 @@ public class IpmPackager {
 
         if (params.getParam(PACKAGE_NAME) == null || params.getParam(PACKAGE_NAME).isEmpty() ) {
             params.addParam(PACKAGE_NAME, packageName);
+        }
+
+        if (params.getParam(PACKAGE_FORMAT_ID) == null || params.getParam(PACKAGE_FORMAT_ID).isEmpty() ) {
+            params.addParam(PACKAGE_FORMAT_ID, DEFAULT_PACKAGE_FORMAT);
         }
 
         return params;
