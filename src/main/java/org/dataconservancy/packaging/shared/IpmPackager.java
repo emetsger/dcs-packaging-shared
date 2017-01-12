@@ -37,6 +37,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
+import static org.dataconservancy.packaging.tool.api.PackagingFormat.BOREM;
+import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_FORMAT_ID;
 import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_LOCATION;
 import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PACKAGE_NAME;
 
@@ -45,6 +47,16 @@ import static org.dataconservancy.packaging.tool.model.GeneralParameterNames.PAC
  * @author Ben Trumbore (wbt3@cornell.edu).
  */
 public class IpmPackager {
+
+    /**
+     * The default 'Package-Format-Id' if there is not one supplied in the package generation parameters.
+     */
+    private static final String DEFAULT_PACKAGE_FORMAT = BOREM.name();
+
+    /**
+     * The default 'BagIt-Profile-Identifier' if there is not one supplied in the package generation parameters.
+     */
+    private static final String DEFAULT_BAGIT_PROFILE = "http://dataconservancy.org/formats/data-conservancy-pkg-1.0";
 
     private String packageLocation = System.getProperty("java.io.tmpdir");
     private String packageName = "MyPackage";
@@ -82,8 +94,8 @@ public class IpmPackager {
      * API call for creating a package from the given content, metadata
      * and generation parameters.
      * @param contentProvider Source of domain objects and IpmTree content
-     * @param metadataStream - A stream to metadata, as Java Properties.
-     * @param paramsStream A stream to package generation parameters, as Java Properties.
+     * @param metadataStream - A stream to metadata, as Java Properties, may be {@code null}
+     * @param paramsStream A stream to package generation parameters, as Java Properties, may be {@code null}
      * @return A populated Package
      * @throws RuntimeException if the content cannot be processed successfully.
      */
@@ -162,18 +174,23 @@ public class IpmPackager {
     /**
      * Read and return a set of package generation parameters.
      * <p>Implementation note:</p>
-     * <p>Two package generation parameters are required by the underlying package serialization code:
+     * <p>These package generation parameters are required by the underlying package serialization code:
      *
      * <dl>
      *     <dt>Package-Location</dt>
      *     <dd>the file location (a directory) where the package will be assembled, e.g. {@code /tmp}</dd>
      *     <dt>Package-Name</dt>
      *     <dd>the name of the package, e.g. {@code MyPackage}</dd>
+     *     <dt>Package-Format-Id</dt>
+     *     <dd>the serialization format of the package, e.g. {@code BOREM} (BagIt plus ORE-REM)</dd>
+     *     <dt>BagIt-Profile-Identifier</dt>
+     *     <dd>a URI from the Data Conservancy BagIt profile identifying the version of the profile in use, e.g.
+     *         {@code http://dataconservancy.org/formats/data-conservancy-pkg-1.0}</dd>
      * </dl>
      *
-     * This method will add {@code Package-Location} and {@code Package-Name} if they are not supplied in
-     * {@code paramsStream}.  If {@code paramsStream} is {@code null}, a {@code PackageGenerationParameters} will be
-     * returned containing default values for the {@code Package-Location} and {@code Package-Name}.
+     * This method will add default values for {@code Package-Location}, {@code Package-Name},
+     * {@code Package-Format-Id}, and {@code BagIt-Profile-Identifier} if they are not supplied in {@code paramsStream},
+     * or if {@code paramsStream} is {@code null}.
      * </p>
      *
      * @param paramsStream A stream from which the package generation parameters are read (as Java Properties), may be
@@ -197,6 +214,15 @@ public class IpmPackager {
 
         if (params.getParam(PACKAGE_NAME) == null || params.getParam(PACKAGE_NAME).isEmpty() ) {
             params.addParam(PACKAGE_NAME, packageName);
+        }
+
+        if (params.getParam(PACKAGE_FORMAT_ID) == null || params.getParam(PACKAGE_FORMAT_ID).isEmpty() ) {
+            params.addParam(PACKAGE_FORMAT_ID, DEFAULT_PACKAGE_FORMAT);
+        }
+
+        if (params.getParam("BagIt-Profile-Identifier") == null ||
+                params.getParam("BagIt-Profile-Identifier").isEmpty() ) {
+            params.addParam("BagIt-Profile-Identifier", DEFAULT_BAGIT_PROFILE);
         }
 
         return params;
