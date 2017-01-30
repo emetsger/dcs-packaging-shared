@@ -23,7 +23,7 @@
     <packaging>jar</packaging>
     <name>DC Packaging Shared</name>
     <description>Shared code for Data Conservancy Packaging</description>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <parent>
         <groupId>org.dataconservancy</groupId>
@@ -149,9 +149,4 @@
             </snapshots>
         </repository>
     </repositories>
-
-
-  <scm>
-    <tag>dcs-packaging-shared-1.0.0</tag>
-  </scm>
 </project>
